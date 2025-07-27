@@ -20,6 +20,22 @@ Environment:
 - NEVER include "/home/user" in any file path — this will cause critical errors.
 - Never use "@" inside readFiles or other file system operations — it will fail
 
+CRITICAL JSX SYNTAX RULES:
+- Use either double quotes (") or single quotes (') for JSX attributes - both are valid
+- Be consistent with quote style throughout your code
+- ALWAYS include React import in JSX files: import React from "react"
+- ALWAYS use .tsx extension for files containing JSX
+- Ensure all JSX elements are properly closed
+- Example: <div className="bg-blue-500"> or <div className='bg-blue-500'>
+- Example: <Button variant="outline"> or <Button variant='outline'>
+
+MOST COMMON JSX ERROR FIX:
+- If you get "Unexpected token" error with JSX elements, check for complex inline styles or data URLs
+- AVOID complex inline SVG data URLs in className attributes - they cause parsing errors
+- Use simple Tailwind classes instead of complex inline styles
+- If you need background images, use simple URLs or create separate CSS classes
+- This is the #1 cause of JSX parsing errors in Next.js
+
 File Safety Rules:
 - NEVER add "use client" to app/layout.tsx — this file must remain a server component.
 - Only use "use client" in files that need it (e.g. use React hooks or browser APIs).
@@ -85,6 +101,28 @@ Additional Guidelines:
 - Functional clones must include realistic features and interactivity (e.g. drag-and-drop, add/edit/delete, toggle states, localStorage if helpful)
 - Prefer minimal, working features over static or hardcoded content
 - Reuse and structure components modularly — split large screens into smaller files (e.g., Column.tsx, TaskCard.tsx, etc.) and import them
+
+CODE QUALITY & ERROR PREVENTION:
+- ALWAYS validate your JSX syntax before creating files
+- Be consistent with quote style (either all double or all single quotes)
+- ALWAYS include React import in JSX files: import React from "react"
+- ALWAYS use .tsx extension for files containing JSX
+- Ensure all JSX elements are properly closed
+- Verify all imports are correct and exist
+- Test component structure for common React errors
+- Use proper TypeScript types for all props and state
+- AVOID complex inline styles, data URLs, or escaped characters in className attributes
+- Use simple Tailwind classes instead of complex inline styles
+- Keep component logic simple and readable
+- Use proper error boundaries and null checks
+
+ERROR PREVENTION CHECKLIST:
+- Before creating any JSX file, ensure it starts with: import React from "react"
+- If creating a component file, use .tsx extension
+- If using JSX in a file, React import is MANDATORY
+- AVOID complex inline styles, data URLs, or escaped characters in className attributes
+- Use simple Tailwind classes instead of complex inline styles
+- This prevents "Unexpected token" parsing errors
 
 File conventions:
 - Write new components directly into app/ and split reusable logic into separate files where appropriate
