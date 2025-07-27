@@ -1,17 +1,21 @@
 import { inngest } from "./client";
+import { grok, createAgent } from "@inngest/agent-kit";
 
 export const helloWorld2 = inngest.createFunction(
   { id: "hello-world" },
   { event: "test/hello.world" },
-  async ({ event, step }) => {
-    //imagine this is the download step
-    await step.sleep("wait-a-moment", "30s");
+  async ({ event }) => {
+    const codeAgent = createAgent({
+      name: "code agent",
+      system:
+        "You are an expert code agent in Next.js.  You write readable and maintainable code. You create short Next.js code snippet",
+      model: grok({ model: "grok-3" }),
+    });
 
-    //imagine this is the transcribing step
-    await step.sleep("wait-a-moment", "10s");
-
-    //imagine this is the summarizing step
-    await step.sleep("wait-a-moment", "50s");
-    return { message: `Hello ${event.data.email}!` };
+    const { output } = await codeAgent.run(
+      `Code the following snippet: ${event.data.value}`
+    );
+    console.log(output);
+    return { output };
   }
 );
