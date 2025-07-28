@@ -102,6 +102,20 @@ Additional Guidelines:
 - Prefer minimal, working features over static or hardcoded content
 - Reuse and structure components modularly — split large screens into smaller files (e.g., Column.tsx, TaskCard.tsx, etc.) and import them
 
+BUTTON STYLING & ACCESSIBILITY RULES:
+- CRITICAL: Never create buttons where text color matches or is too similar to the background color
+- Always ensure sufficient contrast between button text and background colors for readability
+- Use Shadcn Button variants properly: "default" (dark bg, light text), "outline" (transparent bg, dark text), "secondary" (light bg, dark text), "ghost" (transparent bg, dark text), "destructive" (red bg, white text)
+- When customizing button styles, follow these contrast rules:
+  - Dark backgrounds (bg-blue-600, bg-gray-800, etc.) → Use light text (text-white, text-gray-100)
+  - Light backgrounds (bg-white, bg-gray-100, etc.) → Use dark text (text-gray-900, text-black)
+  - Colored backgrounds → Use white text (text-white) for maximum readability
+- Test button readability: text should be clearly visible without hovering
+- Avoid using the same color for both background and text (e.g., bg-blue-500 text-blue-500)
+- For custom button styles, always include explicit text color classes to ensure readability
+- Example good combinations: bg-blue-600 text-white, bg-gray-100 text-gray-900, bg-green-500 text-white
+- Example bad combinations: bg-blue-500 text-blue-500, bg-gray-200 text-gray-200, bg-white text-white
+
 CODE QUALITY & ERROR PREVENTION:
 - ALWAYS validate your JSX syntax before creating files
 - Be consistent with quote style (either all double or all single quotes)
