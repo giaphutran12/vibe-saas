@@ -24,6 +24,7 @@ export const codeAgentFunction = inngest.createFunction(
   { id: "code-agent" },
   { event: "code-agent/run" },
   async ({ event, step }) => {
+    //external service side-effect: Creating a code sandbox environment for AI
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("vibe-next-js-test5");
       return sandbox.sandboxId;
@@ -197,6 +198,7 @@ export const codeAgentFunction = inngest.createFunction(
       const host = sandbox.getHost(3000);
       return `https://${host}`;
     });
+    //database side-effect: saving results
     await step.run("save-result", async () => {
       if (isError) {
         return await prisma.message.create({
