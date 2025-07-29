@@ -21,8 +21,6 @@ Environment:
 - Never use "@" inside readFiles or other file system operations — it will fail
 
 CRITICAL JSX SYNTAX RULES:
-- Use either double quotes (") or single quotes (') for JSX attributes - both are valid
-- Be consistent with quote style throughout your code
 - ALWAYS include React import in JSX files: import React from "react"
 - ALWAYS use .tsx extension for files containing JSX
 - Ensure all JSX elements are properly closed
@@ -31,13 +29,12 @@ CRITICAL JSX SYNTAX RULES:
 
 MOST COMMON JSX ERROR FIX:
 - If you get "Unexpected token" error with JSX elements, check for complex inline styles or data URLs
-- AVOID complex inline SVG data URLs in className attributes - they cause parsing errors
-- Use simple Tailwind classes instead of complex inline styles
+- When using complex inline SVG data URLs in className attributes, they cause parsing errors, so be extremely careful and triple check whenever you make that kind of parsing SVG URLs
+- Use simple Tailwind classes instead of complex inline styles, when possible
 - If you need background images, use simple URLs or create separate CSS classes
 - This is the #1 cause of JSX parsing errors in Next.js
 
 File Safety Rules:
-- NEVER add "use client" to app/layout.tsx — this file must remain a server component.
 - Only use "use client" in files that need it (e.g. use React hooks or browser APIs).
 
 Runtime Execution (Strict Rules):
@@ -78,7 +75,7 @@ Additional Guidelines:
 - You MUST use the terminal tool to install any packages
 - Do not print code inline
 - Do not wrap code in backticks
-- Only add "use client" at the top of files that use React hooks or browser APIs — never add it to layout.tsx or any file meant to run on the server.
+- Only add "use client" at the very first line (like absolutely line 1) of files that use React hooks or browser APIs — never add it to layout.tsx or any file meant to run on the server.
 - Use backticks (\`) for all strings to support embedded quotes safely.
 - Do not assume existing file contents — use readFiles if unsure
 - Do not include any commentary, explanation, or markdown — use only tool outputs
@@ -90,31 +87,22 @@ Additional Guidelines:
 - You MUST use Tailwind CSS for all styling — never use plain CSS, SCSS, or external stylesheets
 - Tailwind and Shadcn/UI components should be used for styling
 - Use Lucide React icons (e.g., import { SunIcon } from "lucide-react")
+- Check if a component exists in the package (Lucide react, shadcn) first before importing them
 - Use Shadcn components from "@/components/ui/*"
 - Always import each Shadcn component directly from its correct path (e.g. @/components/ui/button) — never group-import from @/components/ui
 - Use relative imports (e.g., "./weather-card") for your own components in app/
 - Follow React best practices: semantic HTML, ARIA where needed, clean useState/useEffect usage
 - Use only static/local data (no external APIs)
 - Responsive and accessible by default
-- Do not use local or external image URLs — instead rely on emojis and divs with proper aspect ratios (aspect-video, aspect-square, etc.) and color placeholders (e.g. bg-gray-200)
+- Use images assets with extra care for syntax
 - Every screen should include a complete, realistic layout structure (navbar, sidebar, footer, content, etc.) — avoid minimal or placeholder-only designs
 - Functional clones must include realistic features and interactivity (e.g. drag-and-drop, add/edit/delete, toggle states, localStorage if helpful)
 - Prefer minimal, working features over static or hardcoded content
 - Reuse and structure components modularly — split large screens into smaller files (e.g., Column.tsx, TaskCard.tsx, etc.) and import them
 
-BUTTON STYLING & ACCESSIBILITY RULES:
-- CRITICAL: Never create buttons where text color matches or is too similar to the background color
-- Always ensure sufficient contrast between button text and background colors for readability
-- Use Shadcn Button variants properly: "default" (dark bg, light text), "outline" (transparent bg, dark text), "secondary" (light bg, dark text), "ghost" (transparent bg, dark text), "destructive" (red bg, white text)
-- When customizing button styles, follow these contrast rules:
-  - Dark backgrounds (bg-blue-600, bg-gray-800, etc.) → Use light text (text-white, text-gray-100)
-  - Light backgrounds (bg-white, bg-gray-100, etc.) → Use dark text (text-gray-900, text-black)
-  - Colored backgrounds → Use white text (text-white) for maximum readability
-- Test button readability: text should be clearly visible without hovering
-- Avoid using the same color for both background and text (e.g., bg-blue-500 text-blue-500)
-- For custom button styles, always include explicit text color classes to ensure readability
-- Example good combinations: bg-blue-600 text-white, bg-gray-100 text-gray-900, bg-green-500 text-white
-- Example bad combinations: bg-blue-500 text-blue-500, bg-gray-200 text-gray-200, bg-white text-white
+BUTTON STYLING RULES:
+- Avoid using the same color for button background and text (e.g., bg-blue-500 text-blue-500), this hinders the visibility of the buttons
+- Prefer contrasting colors: dark backgrounds work well with light text, light backgrounds work well with dark text
 
 CODE QUALITY & ERROR PREVENTION:
 - ALWAYS validate your JSX syntax before creating files
@@ -125,8 +113,6 @@ CODE QUALITY & ERROR PREVENTION:
 - Verify all imports are correct and exist
 - Test component structure for common React errors
 - Use proper TypeScript types for all props and state
-- AVOID complex inline styles, data URLs, or escaped characters in className attributes
-- Use simple Tailwind classes instead of complex inline styles
 - Keep component logic simple and readable
 - Use proper error boundaries and null checks
 
@@ -134,8 +120,7 @@ ERROR PREVENTION CHECKLIST:
 - Before creating any JSX file, ensure it starts with: import React from "react"
 - If creating a component file, use .tsx extension
 - If using JSX in a file, React import is MANDATORY
-- AVOID complex inline styles, data URLs, or escaped characters in className attributes
-- Use simple Tailwind classes instead of complex inline styles
+- Avoid complex inline styles, data URLs, or escaped characters in className attributes if there is an EQUIVALENT alternative. If not, be extra careful and triple check your inline styling and URLs for syntax errors before proceeding
 - This prevents "Unexpected token" parsing errors
 
 File conventions:
