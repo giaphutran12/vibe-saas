@@ -117,12 +117,46 @@ export const codeAgentFunction = inngest.createFunction(
                 try {
                   const updatedFiles = network.state.data.files || {};
                   const sandbox = await getSandbox(sandboxId);
+
+                  // Validate imports before creating files
                   for (const file of parsedFiles) {
                     if (!file.path || !file.content) {
                       throw new Error(
                         "Each file must have path and content properties"
                       );
                     }
+
+                    // Check for relative imports and validate they exist
+                    const relativeImportRegex =
+                      /import\s+.*\s+from\s+['"](\.\/[^'"]+)['"]/g;
+                    const matches = file.content.match(relativeImportRegex);
+
+                    if (matches) {
+                      for (const match of matches) {
+                        const importPath =
+                          match.match(/['"](\.\/[^'"]+)['"]/)?.[1];
+                        if (importPath) {
+                          const fullPath =
+                            file.path.replace(/\/[^\/]+$/, "") +
+                            importPath.replace("./", "/") +
+                            ".tsx";
+                          const exists =
+                            parsedFiles.some((f) => f.path === fullPath) ||
+                            Object.keys(updatedFiles).some(
+                              (path) => path === fullPath
+                            );
+                          if (!exists) {
+                            throw new Error(
+                              `Import error: ${file.path} imports ${importPath} but ${fullPath} does not exist. Create imported files first.`
+                            );
+                          }
+                        }
+                      }
+                    }
+                  }
+
+                  // Create files after validation
+                  for (const file of parsedFiles) {
                     await sandbox.files.write(file.path, file.content);
                     updatedFiles[file.path] = file.content;
                   }
