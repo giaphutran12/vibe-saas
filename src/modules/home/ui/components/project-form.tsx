@@ -34,21 +34,12 @@ export const ProjectForm = () => {
     },
   });
 
-  // const createMessage = useMutation({
-  //   ...trpc.messages.create.mutationOptions(),
-  //   onSuccess: () => {
-  //     form.reset();
-  //     queryClient.invalidateQueries(
-  //       trpc.messages.getMany.queryOptions({ projectId })
-  //     );
-  //   },
-  // });
-
   const createProject = useMutation(
     trpc.projects.create.mutationOptions({
       onSuccess: (data) => {
         //refetch getMany
         queryClient.invalidateQueries(trpc.projects.getMany.queryOptions());
+        queryClient.invalidateQueries(trpc.usage.status.queryOptions());
         router.push(`projects/${data.id}`);
       },
       onError: (error) => {
@@ -56,6 +47,9 @@ export const ProjectForm = () => {
 
         if (error.data?.code === "UNAUTHORIZED") {
           clerk.openSignIn();
+        }
+        if (error.data?.code === "TOO_MANY_REQUESTS") {
+          router.push("/pricing");
         }
       },
     })
