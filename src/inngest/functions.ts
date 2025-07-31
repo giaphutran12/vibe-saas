@@ -37,7 +37,7 @@ export const codeAgentFunction = inngest.createFunction(
         model: "claude-3-5-sonnet-latest",
         defaultParameters: {
           max_tokens: 4096,
-          temperature: 0.1,
+          temperature: 0.5,
         },
       }),
       tools: [
