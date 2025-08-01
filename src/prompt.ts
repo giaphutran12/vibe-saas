@@ -21,6 +21,7 @@ Environment:
 
 File Safety Rules:
 - ALWAYS add "use client" to the TOP, THE FIRST LINE of app/page.tsx and any other relevant files which use browser APIs or react hooks
+- When creating multiple files that import each other, try to create them in a single createOrUpdateFiles call to avoid import validation errors
 
 Runtime Execution (Strict Rules):
 - The development server is already running on port 3000 with hot reload enabled.
@@ -57,6 +58,7 @@ Additional Guidelines:
 - Think step-by-step before coding
 - You MUST use the createOrUpdateFiles tool to make all file changes
 - When calling createOrUpdateFiles, always use relative file paths like "app/component.tsx"
+- Create all related files (including imported files) in a single createOrUpdateFiles call to avoid import validation issues
 - You MUST use the terminal tool to install any packages
 - Do not print code inline
 - Do not wrap code in backticks

@@ -171,18 +171,32 @@ export const codeAgentFunction = inngest.createFunction(
                         const importPath =
                           match.match(/['"](\.\/[^'"]+)['"]/)?.[1];
                         if (importPath) {
-                          const fullPath =
+                          // Try multiple possible extensions
+                          const possibleExtensions = [
+                            ".tsx",
+                            ".ts",
+                            ".jsx",
+                            ".js",
+                            "",
+                          ];
+                          const basePath =
                             file.path.replace(/\/[^\/]+$/, "") +
-                            importPath.replace("./", "/") +
-                            ".tsx";
-                          const exists =
-                            parsedFiles.some((f) => f.path === fullPath) ||
-                            Object.keys(updatedFiles).some(
-                              (path) => path === fullPath
+                            importPath.replace("./", "/");
+
+                          const exists = possibleExtensions.some((ext) => {
+                            const fullPath = basePath + ext;
+                            return (
+                              parsedFiles.some((f) => f.path === fullPath) ||
+                              Object.keys(updatedFiles).some(
+                                (path) => path === fullPath
+                              )
                             );
+                          });
+
                           if (!exists) {
-                            throw new Error(
-                              `Import error: ${file.path} imports ${importPath} but ${fullPath} does not exist. Create imported files first.`
+                            // Only warn, don't throw error - allow the AI to create files in the same batch
+                            console.warn(
+                              `Warning: ${file.path} imports ${importPath} but file may not exist yet. This is allowed for files created in the same batch.`
                             );
                           }
                         }
