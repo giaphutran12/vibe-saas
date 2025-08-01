@@ -3,7 +3,6 @@ import { prisma } from "@/lib/db";
 import { consumeCredits } from "@/lib/usage";
 import { protectedProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import { err } from "inngest/types";
 
 import z from "zod";
 
