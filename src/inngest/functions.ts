@@ -15,8 +15,6 @@ import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "../prompt";
 import z from "zod";
 import { lastAssistantTextMessageContent } from "../lib/utils";
 import { prisma } from "@/lib/db";
-import { Assistant } from "next/font/google";
-import { create } from "domain";
 import { SANDBOX_TIMEOUT } from "./types";
 
 interface AgentState {
