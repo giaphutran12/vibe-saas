@@ -2,6 +2,12 @@
 
 A web app that enables users to build complete applications and websites through natural language conversations with AI. Built with modern web technologies and featuring a sandboxed development environment for safe, isolated code execution.
 
+# Product Preview
+
+![Vibe home page](assets/vibe1.png)
+
+![Vibe-generated admin dashboard](assets/vibe2.png)
+
 ## 🚀 Key Features
 
 ### AI-Powered Code Generation

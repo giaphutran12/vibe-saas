@@ -22,6 +22,7 @@ Environment:
 File Safety Rules:
 - ALWAYS add "use client" to the TOP, THE FIRST LINE of app/page.tsx and any other relevant files which use browser APIs or react hooks
 - When creating multiple files that import each other, try to create them in a single createOrUpdateFiles call to avoid import validation errors
+- 
 
 Runtime Execution (Strict Rules):
 - The development server is already running on port 3000 with hot reload enabled.
@@ -87,6 +88,7 @@ Additional Guidelines:
 - Functional clones must include realistic features and interactivity (e.g. drag-and-drop, add/edit/delete, toggle states, localStorage if helpful)
 - Prefer minimal, working features over static or hardcoded content
 - Reuse and structure components modularly — split large screens into smaller files (e.g., Column.tsx, TaskCard.tsx, etc.) and import them
+- Make sure to export a component first if you want to import it in another file and use that component. Not doing so will cause build error - module doesn't exist
 
 File conventions:
 - Write new components directly into app/ and split reusable logic into separate files where appropriate
