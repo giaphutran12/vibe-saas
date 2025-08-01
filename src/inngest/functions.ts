@@ -17,6 +17,7 @@ import { lastAssistantTextMessageContent } from "../lib/utils";
 import { prisma } from "@/lib/db";
 import { Assistant } from "next/font/google";
 import { create } from "domain";
+import { SANDBOX_TIMEOUT } from "./types";
 
 interface AgentState {
   summary: string;
@@ -29,7 +30,9 @@ export const codeAgentFunction = inngest.createFunction(
   async ({ event, step }) => {
     //external service side-effect: Creating a code sandbox environment for AI
     const sandboxId = await step.run("get-sandbox-id", async () => {
-      const sandbox = await Sandbox.create("vibe-next-js-test5");
+      const sandbox = await Sandbox.create("vibe-next-js-test5", {
+        timeoutMs: SANDBOX_TIMEOUT,
+      });
       return sandbox.sandboxId;
     });
     const previousMessages = await step.run(
@@ -41,8 +44,9 @@ export const codeAgentFunction = inngest.createFunction(
             projectId: event.data.projectId,
           },
           orderBy: {
-            createdAt: "asc", //TODO: Change to "asc" if AI doesn't understand it very well
+            createdAt: "desc", //TODO: Change to "asc" if AI doesn't understand it very well
           },
+          take: 5,
         });
         for (const message of messages) {
           formattedMessages.push({
@@ -51,7 +55,7 @@ export const codeAgentFunction = inngest.createFunction(
             content: message.content,
           });
         }
-        return formattedMessages;
+        return formattedMessages.reverse();
       }
     );
 
@@ -67,7 +71,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "An expert coding agent",
       system: PROMPT,
       model: anthropic({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-3-5-haiku-latest",
         defaultParameters: {
           max_tokens: 4096,
           temperature: 0.5,
@@ -263,7 +267,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "A fragment title generator",
       system: FRAGMENT_TITLE_PROMPT,
       model: anthropic({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-3-5-haiku-latest",
         defaultParameters: {
           max_tokens: 4096,
           temperature: 0.5,
@@ -275,7 +279,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "A response generator",
       system: RESPONSE_PROMPT,
       model: anthropic({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-3-5-haiku-latest",
         defaultParameters: {
           max_tokens: 4096,
           temperature: 0.5,

@@ -5,6 +5,7 @@ import { MessageForm } from "./message-form";
 import { useEffect, useRef } from "react";
 import { Fragment } from "@/generated/prisma";
 import { MessageLoading } from "./message-loading";
+import { REFETCH_INTERVAL } from "../../types";
 
 interface Props {
   projectId: string;
@@ -24,7 +25,7 @@ export const MessagesContainer = ({
     trpc.messages.getMany.queryOptions(
       { projectId: projectId },
       //TODO: Temporary live message upate
-      { refetchInterval: 5000 }
+      { refetchInterval: REFETCH_INTERVAL }
     )
   );
 
