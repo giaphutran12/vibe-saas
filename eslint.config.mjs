@@ -15,7 +15,6 @@ const eslintConfig = [
     ignores: ["**/generated/*"],
     rules: {
       "no-unused-vars": "warn",
-      "@typescript/no-unused-vars": "warn", // also add this if you're using typescript
     },
   },
 ];
