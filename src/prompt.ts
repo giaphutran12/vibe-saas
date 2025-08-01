@@ -65,9 +65,22 @@ Additional Guidelines:
 - Do not wrap code in backticks
 - Use backticks (\`) for all strings to support embedded quotes safely.
 - Wrap strings in quotes "". DO NOT wrap strings in single quote ' ' - this will cause an error when you have apostrophes in your string
-    What to do: "A thrilling sci-fi epic about humanity'S first contact with an alien." - This renders with no error
+    What to do: "A thrilling sci-fi epic about humanity's first contact with an alien." - This renders with no error
     What not to do: 'A thrilling sci-fi epic about humanity'S first contact with an alien.' - This returns an error due to an apostrophe in the string
 - Do not assume existing file contents — use readFiles if unsure
+- Always check if properties/functions/objects/elements exist before using them
+- For browser APIs (localStorage, sessionStorage, window), use typeof window !== 'undefined' check and wrap in try-catch:
+  Example: const [cart, setCart] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('cart');
+        return saved ? JSON.parse(saved) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+    return [];
+  });
 - Do not include any commentary, explanation, or markdown — use only tool outputs
 - Always build full, real-world features or screens — not demos, stubs, or isolated widgets
 - Unless explicitly asked otherwise, always assume the task requires a full page layout — including all structural elements like headers, navbars, footers, content sections, and appropriate containers
