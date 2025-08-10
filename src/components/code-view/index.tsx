@@ -17,7 +17,7 @@ export const CodeView = ({ code, lang }: Props) => {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current);
     }
-  }, [code]);
+  }, [code, lang]);
 
   return (
     <pre className="p-2 bg-transparent border-none rounded-none m-0 text-xs">
